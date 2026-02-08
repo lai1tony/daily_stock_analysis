@@ -1,0 +1,28 @@
+name: Daily Stock Analysis Deployment
+
+on:
+  push:
+    branches: [ "main" ]  # 只在推送到 main 分支时触发
+  schedule:
+    - cron: '0 9 * * *'   # 每天 UTC 时间 9:00 运行（可调整）
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest  # 使用 Ubuntu 环境
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  # 指定 Python 版本
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt  # 安装依赖（确保有 requirements.txt）
+
+      - name: Run analysis script
+        run: |
+          python main.py  # 替换为你的主脚本名
